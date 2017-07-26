@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 public class Persona {
 
 	@Id
-	private int idEmpleado;
+	private String idEmpleado;
 	private String nombre;
 	private String apPaterno;
 	private String apMaterno;
@@ -25,11 +25,13 @@ public class Persona {
 		this.sexo = sexo;
 	}
 
-	public int getIdEmpleado() {
+	
+
+	public String getIdEmpleado() {
 		return idEmpleado;
 	}
 
-	public void setIdEmpleado(int idEmpleado) {
+	public void setIdEmpleado(String idEmpleado) {
 		this.idEmpleado = idEmpleado;
 	}
 
