@@ -34,7 +34,7 @@ public class PersonaControlador {
 	@PostMapping(value = "/save/persona")
 	public Map<String, Object> createPerson(@RequestBody Map<String, Object> personMap){
 
-		person.setIdEmpleado(personMap.get("idEmpleado").toString());
+		person.setIdPersona(personMap.get("idPersona").toString());
 		person.setNombre(personMap.get("nombre").toString());
 		person.setApPaterno(personMap.get("apPaterno").toString());
 		person.setApMaterno(personMap.get("apMaterno").toString());
@@ -48,10 +48,10 @@ public class PersonaControlador {
 		return response;
 	}
 
-	@GetMapping(value="/one/{nameEmpleado}")
-	public Map<String, Object> getPersonDetails(@PathVariable("nameEmpleado") String nameEmpleado){
+	@GetMapping(value="/one/{namePersona}")
+	public Map<String, Object> getPersonDetails(@PathVariable("namePersona") String namePersona){
 		Map<String, Object> response = new LinkedHashMap<String, Object>();
-		Persona pp=repository.nombre(nameEmpleado);
+		Persona pp=repository.nombre(namePersona);
 
 		if(pp!=null){
 			response.put("message", "This is the Person");
@@ -66,8 +66,8 @@ public class PersonaControlador {
 	@PutMapping(value="/update")
 	public Map<String, Object> editPerson(@RequestBody Map<String, Object> personMap){
 		Map<String, Object> response = new LinkedHashMap<String, Object>();
-		System.out.println(personMap.get("idEmpleado").toString()+"<---------");
-		Persona findOne = repository.findOne(personMap.get("idEmpleado").toString());
+		System.out.println(personMap.get("idPersona").toString()+"<---------");
+		Persona findOne = repository.findOne(personMap.get("idPersona").toString());
 
 		if (findOne!=null) {
 			findOne.setNombre(personMap.get("nombre").toString());
@@ -91,8 +91,8 @@ public class PersonaControlador {
 		Persona pp=repository.nombre(nameEmpleado);
 
 		if(pp!=null){
-			repository.delete(pp.getIdEmpleado());
-			response.put("message", "Person deleted successfully "+pp.getIdEmpleado());
+			repository.delete(pp.getIdPersona());
+			response.put("message", "Person deleted successfully "+pp.getIdPersona());
 			response.put("person", pp);
 			return response;		
 		}
