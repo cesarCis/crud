@@ -1,0 +1,502 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "CHNN-BNE-V-Transactions",
+    "description": "Service for getting Pending Authorization Transactions",
+    "version": "1.1"
+  },
+  "host": "127.0.0.1",
+  "schemes": ["https"],
+  "basePath": "/api",
+  "produces": ["application/json"],
+  "paths": {
+    "/v1/channels/bne/accounts/transactions/retrieve": {
+      "post": {
+        "tags": [
+          "pendingAuthorization"
+        ],
+        "summary": "pendingAuthorization",
+        "description": "Retrieves the total of transactions and operations pending of authorization",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "client_id",
+           "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Client ID generated during application registration"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "The Authorization Token received during login"
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Content-Types that are acceptable for the response"
+          },
+          {
+            "name": "uuid",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "128 bit UUID that you generate for every request"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "type": "string",
+            "description": "List of acceptable human languages for response"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Content-Types that are sent in the request"
+          },
+          {
+            "name": "ChannelId",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Channel where request originated"
+          },
+          {
+            "name": "sid",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "SessionId sent by Consumer"
+          },
+          {
+            "name": "pendingAuthorizationRequest",
+            "in": "body",
+            "schema": {
+              "$ref": "#/definitions/PendingAuthorizationRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "schema": {
+              "$ref": "#/definitions/PendingAuthorizationResponse"
+            }
+          },
+          "400": {
+            "description": "<table><table><tr><td>Type</td><td>Code</td><td>Details</td></tr><tr><td>error</td><td>invalidRequest</td><td>Missing or invalid Parameters</td></tr></table>",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "<table><tr><td>Type</td><td>Code</td><td>Details</td></tr><tr><td>error</td><td>unAuthorized</td><td>Authorization credentials are missing or invalid</td></tr></table>",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "<table><tr><td>Type</td><td>Code</td><td>Details</td><td>More Info</td></tr><tr><td>error</td><td>accessNotConfigured</td><td>The request operation is not configured to access this resource</td><td>Channel/Country/Business provided in the request is not supported currently</td></tr></table>",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "<table><tr><td>Type</td><td>Code</td><td>Details</td><td>More Info</td></tr><tr><td>error</td><td>resourceNotFound</td><td>The requested resource was not found</td><td>Empty resource/resource not found</td></tr></table>",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "<table><tr><td>Type</td><td>Code</td><td>Details</td></tr><tr><td>fatal</td><td>serverUnavailable</td><td>The request failed due to an internal error/server unavailability</td></tr></table>",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+        "/v1/channels/bne/transactions/retrieve": {
+      "post": {
+        "tags": [
+          "retrieve-transaction-details"
+        ],
+        "summary": "retreieveTransactionDetails",
+        "description": "to retrieve transaction details from the SQL database",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "client_id",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Client ID generated during application registration"
+          },
+          {
+            "name": "Authorization",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "The Authorization Token received during login"
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Content-Types that are acceptable for the response"
+          },
+          {
+            "name": "uuid",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "128 bit UUID that you generate for every request"
+          },
+          {
+            "name": "Accept-Language",
+            "in": "header",
+            "required": false,
+            "type": "string",
+            "description": "List of acceptable human languages for response"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Content-Types that are sent in the request"
+          },
+          {
+            "name": "ChannelId",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "Channel where request originated"
+          },
+          {
+            "name": "sid",
+            "in": "header",
+            "required": true,
+            "type": "string",
+            "description": "SessionId sent by Consumer"
+          },
+          {
+            "name": "retrieveTransactionDetailsRequest",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RetrieveTransactionDetailsRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation.",
+            "schema": {
+              "$ref": "#/definitions/RetrieveTransactionDetailsResponse"
+            }
+          },
+          "400": {
+            "description": "<table><table><tr><td>Type</td><td>Code</td><td>Details</td></tr><tr><td>error</td><td>invalidRequest</td><td>Missing or invalid Parameters</td></tr></table>",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "<table><tr><td>Type</td><td>Code</td><td>Details</td></tr><tr><td>error</td><td>unAuthorized</td><td>Authorization credentials are missing or invalid</td></tr></table>",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "403": {
+            "description": "<table><tr><td>Type</td><td>Code</td><td>Details</td><td>More Info</td></tr><tr><td>error</td><td>accessNotConfigured</td><td>The request operation is not configured to access this resource</td><td>Channel/Country/Business provided in the request is not supported currently</td></tr></table>",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "<table><tr><td>Type</td><td>Code</td><td>Details</td><td>More Info</td></tr><tr><td>error</td><td>resourceNotFound</td><td>The requested resource was not found</td><td>Empty resource/resource not found</td></tr></table>",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "500": {
+            "description": "<table><tr><td>Type</td><td>Code</td><td>Details</td></tr><tr><td>fatal</td><td>serverUnavailable</td><td>The request failed due to an internal error/server unavailability</td></tr></table>",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "PendingAuthorizationRequest": {
+      "type": "object",
+      "properties": {
+        "customerId": {
+          "description": "Unique Identifier of the customer",
+          "type": "string",
+          "example": "",
+                                 "maxLength": 12
+        },
+        "operatorId": {
+          "description": "Designated person by the Enterprises to fulfill financial operations according to entitlements assigned.",
+          "type": "string",
+          "example": "99",
+                                 "maxLength": 2
+        }
+      },
+      "required": ["customerId", "operatorId"]
+    },
+    "PendingAuthorizationResponse": {
+      "type": "object",
+      "properties": {
+        "totalPendingTransactions": {
+          "description": "Transactions pending of authorization",
+          "type": "integer",
+          "format": "int32",
+          "example": 10
+        },
+        "totalPendingOperations": {
+          "description": "Operations pending of authorization",
+          "type": "integer",
+          "format": "int32",
+          "example": 12
+        }
+      },
+      "required": ["totalPendingTransactions", "totalPendingOperations"]
+    },
+    "RetrieveTransactionDetailsRequest": {
+      "type": "object",
+      "properties": {
+        "customerId": {
+          "description": "corporate customer id(clientId)",
+          "type": "string",
+          "example": "123456789012"
+        },
+        "operatorId": {
+          "description": "legal representative id(representativeId)",
+          "type": "string",
+          "example": "12"
+        },
+        "transactionClassificationCode": {
+          "description": "Classification of transaction whether countable or non-countable(type)",
+          "type": "string",
+          "example": "1"
+        }
+      },
+      "required": ["customerId", "operatorId", "transactionClassificationCode"]
+    },
+    "RetrieveTransactionDetailsResponse": {
+      "type": "object",
+      "properties": {
+        "transactions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Transaction"
+          }
+        }
+      }
+    },
+    "Transaction": {
+      "type": "object",
+      "properties": {
+        "transactionShortDescription": {
+          "description": "Name of Transaction(nameTransaction)",
+          "type": "string",
+          "example": "PAGTERPARCHTAHU_BE"
+        },
+        "transactionDescription": {
+          "description": "Description of Transaction(transactionDescription)",
+          "type": "string",
+          "example": "PAGOS A TERCEROS CHEQUES - TARJETAS"
+        },
+        "transactionStatus": {
+          "description": "Status of Transaction(eStatus)",
+          "type": "string",
+          "example": "Rechazada"
+        },
+        "transactionStatusCode": {
+          "description": "Status code of Transaction",
+          "type": "string",
+          "example": "012"
+        },
+        "transactionAmount": {
+          "description": "Amount of transaction(amount)",
+          "type": "number",
+          "format": "double",
+          "example": 1234.09
+        },
+        "currencyCode": {
+          "description": "Currency Code(currencyCode)",
+          "type": "string",
+          "example": "MXN"
+        },
+        "authorizationCode": {
+          "description": "Transaction Authorization Code(authorization_remote)",
+          "type": "string",
+          "example": "011003"
+        },
+        "transactionDate": {
+          "description": "date of transaction(fecha)",
+          "type": "string",
+          "format": "date",
+          "example": "20181226"
+        },
+        "transactionTime": {
+          "description": "time of transaction(Hora)",
+          "type": "string",
+          "example": "11:22:33"
+        },
+        "transactionResponseReasonCode": {
+          "description": "Reason for transaction declined or blocked (MessageError)",
+          "type": "string",
+          "example": "Fecha Vencida"
+        },
+        "retrievedBy": {
+          "description": "data retrieved by from the table byFile or by Individual(retrievedBy)",
+          "type": "string",
+          "example": "File"
+        },
+        "operatorId": {
+          "description": "legal representative id(executiveNumber)",
+          "type": "string",
+          "example": "12"
+        },
+        "tableSerialNumber": {
+          "description": "Serial Number in the table(serial_number)",
+          "type": "string",
+          "example": "1"
+        },
+        "lastUpdatedBy": {
+          "description": "data updated by in the table(capturedBy)",
+          "type": "string",
+          "example": "Mary Sinkins"
+        },
+        "representatives": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TransactionRepresentative"
+          }
+        },
+        "destinationAccount": {
+            "$ref": "#/definitions/DestinationAccount"
+        },
+        "sourceAccount": {
+            "$ref": "#/definitions/SourceAccount"
+        },
+        "TransactionReferenceDetail":{
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TransactionReferenceDetail"
+          }
+        }
+      }
+    },
+    "TransactionRepresentative": {
+      "type": "object",
+      "properties": {
+        "operatorName": {
+          "description": "Representative responsible of the trasactions",
+          "type": "string",
+          "example": "Mary Kom"
+        }
+      }
+    },
+    "DestinationAccount": {
+      "type": "object",
+      "properties": {
+        "branchId": {
+          "description": "destination account branch id(to_branch)",
+          "type": "string",
+          "example": "123456"
+        },
+        "accountNumber": {
+          "description": "destination account number(to_account_number)",
+          "type": "string",
+          "example": "1234567890"
+        },
+        "accountHolderName": {
+          "description": "Name of the account holder(to_account_name)",
+          "type": "string",
+          "example": "Bryan Sanger"
+        }
+      }
+    },
+    "SourceAccount": {
+      "type": "object",
+      "properties": {
+        "branchId": {
+          "description": "source account branch id(from_branch)",
+          "type": "string",
+          "example": "1234578"
+        },
+        "accountNumber": {
+          "description": "Source Account Number(from_account_number)",
+          "type": "string",
+          "example": "123567890"
+        },
+        "accountHolderName": {
+          "description": "Name of the account holder(from_account_name)",
+          "type": "string",
+          "example": "Bryan Singer"
+        }
+      }
+    },
+    "TransactionReferenceDetail": {
+      "type": "object",
+      "properties": {
+        "transactionReference": {
+          "description": "Client's reference description of the transaction",
+          "type": "string",
+          "example": "Nomina Banamex"
+        }
+      }
+    },
+    "ErrorResponse": {
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Invalid - Request did not confirm to the specification and was unprocessed and rejected. Please fix the value and try again",
+          "enum": ["error", "warn", "invalid", "fatal"]
+        },
+        "code": {
+          "description": "Error code which qualifies the error",
+         "type": "string"
+        },
+        "details": {
+          "description": "Human readable explanation specific to the occurrence of the problem",
+          "type": "string"
+        },
+        "location": {
+          "description": "The name of the field that resulted in the error",
+          "type": "string"
+        },
+        "moreInfo": {
+          "description": "URI to human readable documentation or detailed description of the error",
+          "type": "string"
+        },
+        "uuid": {
+          "description": "128 bit UUID that you generate for every request",
+          "type": "string"
+        },
+        "timestamp": {
+          "description": "Timestamp of the error",
+          "type": "string"
+        }
+      },
+      "required": ["type", "code"]
+    }
+  }
+}
